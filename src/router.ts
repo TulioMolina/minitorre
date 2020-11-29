@@ -43,7 +43,7 @@ router.get(
       // defining base url for people endpoint at torre
       const peopleBaseUrl = `https://search.torre.co/people/_search/`;
       await updateResourceDb(peopleBaseUrl, "people");
-      res.send("successful insertion to opportunities db");
+      res.send("successful insertion to people db");
     } catch (error) {
       console.log(error);
       res.status(500).send("error");

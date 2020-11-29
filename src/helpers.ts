@@ -75,7 +75,5 @@ export const updateResourceDb = async (
   } catch (error) {
     console.log(error);
     throw error;
-  } finally {
-    await mongoClient.close();
   }
 };
