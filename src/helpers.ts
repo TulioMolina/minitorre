@@ -26,7 +26,7 @@ export const updateResourceDb = async (
     await mongoClient.connect();
 
     // constraint of 150000 docs per collection given db space limit
-    while (remaining > 0 || offset < 100000) {
+    while (remaining > 0 && offset < 100000) {
       const resources = await axios.post(
         endpointBaseUrl,
         {},
@@ -66,7 +66,10 @@ export const updateResourceDb = async (
       console.log(remaining);
     }
 
-    await mongoClient.db().collection(`temp_${resource}`).rename(resource);
+    await mongoClient
+      .db()
+      .collection(`temp_${resource}`)
+      .rename(resource, { dropTarget: true });
 
     console.log(`finished ${resource} update`);
   } catch (error) {
