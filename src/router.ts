@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import mongoClient from "./mongoclient";
 // import axios from "axios";
 
-import { updateResource, updateResourceDb } from "./helpers";
+import { updateResourceDb } from "./helpers";
 
 const router = express.Router();
 
