@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import mongoClient from "./mongoclient";
 // import axios from "axios";
 
-import { updateResource } from "./helpers";
+import { updateResource, updateResourceDb } from "./helpers";
 
 const router = express.Router();
 
@@ -14,9 +14,9 @@ router.get(
   async (req: Request, res: Response): Promise<void> => {
     await mongoClient.connect();
     const count = await mongoClient
-      .db("minitorre")
+      .db()
       .collection("opportunities")
-      .count();
+      .countDocuments();
     console.log(count);
     res.send("hello");
   }
@@ -29,11 +29,8 @@ router.get(
     try {
       // defining base url for people endpoint at torre
       const opportBaseUrl = `https://search.torre.co/opportunities/_search/`;
-      opportunitiesData = await updateResource(opportBaseUrl);
-      res.send({
-        len: opportunitiesData.length,
-        first: opportunitiesData[0],
-      });
+      await updateResourceDb(opportBaseUrl, "opportunities");
+      res.send("successful insertion to opportunities db");
     } catch (error) {
       console.log(error);
       res.status(500).send("error");

@@ -6,5 +6,6 @@ Sat-02 pm   High level project design (front and back) considering available dat
 Sat-04 pm   Backend design
 Sat-05 pm   Backend tech-stack selection and setup
 Sat-06 pm   Break
-Sat-08 pm   Start backend development
-Sat-10 pm   Implement update-data endpoints
+Sun-09 am   Start backend development
+Sun-12 pm   Implement update-data endpoints
+Sun-03 pm   Setup mongodb instance
