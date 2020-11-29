@@ -1,11 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import router from "./router";
-
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
+
+import router from "./router";
 
 const app = express();
 

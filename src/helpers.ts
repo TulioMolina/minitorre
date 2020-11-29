@@ -46,11 +46,13 @@ export const updateResource = async (
   const responseArray = await Promise.all(promiseContainer);
   console.log("after promise all");
 
-  const resultingResources: any[] = [];
+  let buffer: any = [];
 
   responseArray.forEach((responseElement) => {
-    resultingResources.concat(responseElement.data.results);
+    buffer.push(responseElement.data.results);
   });
+
+  const resultingResources = buffer.flat();
 
   return resultingResources;
 };

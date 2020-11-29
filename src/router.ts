@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import mongoClient from "./mongoclient";
 // import axios from "axios";
 
 import { updateResource } from "./helpers";
@@ -11,6 +12,12 @@ let opportunitiesData: any[];
 router.get(
   "/",
   async (req: Request, res: Response): Promise<void> => {
+    await mongoClient.connect();
+    const count = await mongoClient
+      .db("minitorre")
+      .collection("opportunities")
+      .count();
+    console.log(count);
     res.send("hello");
   }
 );
@@ -23,10 +30,9 @@ router.get(
       // defining base url for people endpoint at torre
       const opportBaseUrl = `https://search.torre.co/opportunities/_search/`;
       opportunitiesData = await updateResource(opportBaseUrl);
-      console.log(opportunitiesData[opportunitiesData.length - 1]);
       res.send({
-        lastOne: opportunitiesData[opportunitiesData.length - 1],
-        len: `len ${opportunitiesData.length}`,
+        len: opportunitiesData.length,
+        first: opportunitiesData[0],
       });
     } catch (error) {
       console.log(error);
@@ -43,7 +49,10 @@ router.get(
       // defining base url for people endpoint at torre
       const peopleBaseUrl = `https://search.torre.co/people/_search/`;
       peopleData = await updateResource(peopleBaseUrl);
-      res.send(`len ${peopleData.length}`);
+      res.send({
+        len: peopleData.length,
+        first: peopleData[0],
+      });
     } catch (error) {
       console.log(error);
       res.status(500).send("error");
