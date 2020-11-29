@@ -109,9 +109,11 @@ export const updateResourceDb = async (
       console.log(remaining);
     }
 
-    console.log("after loop");
+    console.log(`finished ${resource} update`);
   } catch (error) {
     console.log(error);
     throw error;
+  } finally {
+    await mongoClient.close();
   }
 };
