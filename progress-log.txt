@@ -3,6 +3,8 @@ Day-Time    Activitie
 Sat-12 pm   Analyze test, setup project repository
 Sat-01 pm   Study and test provided endpoints
 Sat-02 pm   High level project design (front and back) considering available data
-Sat-04 pm   Back end design
-Sat-05 pm   Back end tech-stack selection and setup
+Sat-04 pm   Backend design
+Sat-05 pm   Backend tech-stack selection and setup
 Sat-06 pm   Break
+Sat-08 pm   Start backend development
+Sat-10 pm   Implement update-data endpoints

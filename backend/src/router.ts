@@ -23,7 +23,11 @@ router.get(
       // defining base url for people endpoint at torre
       const opportBaseUrl = `https://search.torre.co/opportunities/_search/`;
       opportunitiesData = await updateResource(opportBaseUrl);
-      res.send(`len ${opportunitiesData.length}`);
+      console.log(opportunitiesData[opportunitiesData.length - 1]);
+      res.send({
+        lastOne: opportunitiesData[opportunitiesData.length - 1],
+        len: `len ${opportunitiesData.length}`,
+      });
     } catch (error) {
       console.log(error);
       res.status(500).send("error");
