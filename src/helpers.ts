@@ -25,7 +25,8 @@ export const updateResourceDb = async (
     // connecting to db
     await mongoClient.connect();
 
-    while (remaining > 0) {
+    // constraint of 150000 docs per collection given db space limit
+    while (remaining > 0 || offset > 100000) {
       const resources = await axios.post(
         endpointBaseUrl,
         {},
@@ -40,11 +41,18 @@ export const updateResourceDb = async (
       if (resource === "people") {
         resourceBatch.forEach((person: any) => {
           delete person.skills;
+          delete person.verified;
+          delete person.subjectId;
+          delete person.compensations;
+          delete person.remoter;
         });
       }
 
       // inserting resources to db
-      await mongoClient.db().collection(resource).insert(resourceBatch);
+      await mongoClient
+        .db()
+        .collection(`temp_${resource}`)
+        .insertMany(resourceBatch);
 
       // updating counters
       offset += size;
@@ -57,6 +65,8 @@ export const updateResourceDb = async (
 
       console.log(remaining);
     }
+
+    await mongoClient.db().collection(`temp_${resource}`).rename(resource);
 
     console.log(`finished ${resource} update`);
   } catch (error) {
