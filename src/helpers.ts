@@ -3,7 +3,8 @@ import mongoClient from "./mongoclient";
 
 export const updateResourceDb = async (
   endpointBaseUrl: string,
-  resource: string
+  resource: string,
+  documentsLimit: number
 ): Promise<void> => {
   try {
     // fetching total number of resources
@@ -25,8 +26,8 @@ export const updateResourceDb = async (
     // connecting to db
     await mongoClient.connect();
 
-    // constraint of 150000 docs per collection given db space limit
-    while (remaining > 0 && offset < 240000) {
+    // constraint of docs per collection given db storage limit
+    while (remaining > 0 && offset < documentsLimit) {
       const resources = await axios.post(
         endpointBaseUrl,
         {},
@@ -37,7 +38,7 @@ export const updateResourceDb = async (
 
       const resourceBatch = resources.data.results;
 
-      // delete skills property to save db storage
+      // delete people resource properties to save db storage
       if (resource === "people") {
         resourceBatch.forEach((person: any) => {
           delete person.skills;
@@ -63,7 +64,7 @@ export const updateResourceDb = async (
         size = remaining;
       }
 
-      console.log(remaining);
+      console.log(`${offset} ${resource} resources loaded`);
     }
 
     await mongoClient
@@ -74,6 +75,19 @@ export const updateResourceDb = async (
     console.log(`finished ${resource} update`);
   } catch (error) {
     console.log(error);
-    throw error;
+  }
+};
+
+export const updateData = async (documentsLimit: number) => {
+  try {
+    const peopleBaseUrl = `https://search.torre.co/people/_search/`;
+    await updateResourceDb(peopleBaseUrl, "people", documentsLimit);
+    console.log("successful insertion to people collection");
+
+    const opportBaseUrl = `https://search.torre.co/opportunities/_search/`;
+    await updateResourceDb(opportBaseUrl, "opportunities", documentsLimit);
+    console.log("successful insertion to opportunities collection");
+  } catch (error) {
+    console.log(error);
   }
 };
