@@ -60,7 +60,7 @@ router.post(
       const size = req.body.size || 10;
       const offset = req.body.offset || 0;
       const searchCriteria = { ...req.body };
-      delete searchCriteria.logicOperator;
+      delete searchCriteria.logicalOperator;
       delete searchCriteria.size;
       delete searchCriteria.offset;
 
@@ -98,7 +98,7 @@ router.post(
       const size = req.body.size || 10;
       const offset = req.body.offset || 0;
       const searchCriteria = { ...req.body };
-      delete searchCriteria.logicOperator;
+      delete searchCriteria.logicalOperator;
       delete searchCriteria.size;
       delete searchCriteria.offset;
 
