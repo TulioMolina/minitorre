@@ -1,6 +1,7 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
@@ -15,9 +16,15 @@ app.use(express.json());
 app.use(cors());
 app.use(router);
 
+app.use(express.static("public"));
+
 // start app
 app.listen(process.env.PORT, () => {
   console.log(`listening on port ${process.env.PORT}`);
+});
+
+app.get("*", (req: Request, res: Response): void => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // initialize data when starting app if configured

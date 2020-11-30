@@ -14,3 +14,5 @@ Sun-04 pm   Work around lack of db storage capacity
 Sun-06 pm   Finish data update implementation
 Sun-07 pm   Break
 Sun-09 pm   Implement search endpoints for front end
+Mon-07 am   Finish search endpoints implementation
+Mon-11 am   Start frontend development

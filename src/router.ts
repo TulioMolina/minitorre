@@ -6,13 +6,6 @@ import mongoClient from "./config/mongoclient";
 
 const router = express.Router();
 
-router.get(
-  "/",
-  async (req: Request, res: Response): Promise<void> => {
-    res.send({ message: "Welcome to minitorre" });
-  }
-);
-
 // endpoint that updates and stores opportunities data in db
 router.get(
   "/api/opportunities/update",
