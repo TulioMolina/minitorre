@@ -12,3 +12,5 @@ Sun-01 pm   Break
 Sun-03 pm   Setup mongodb instance
 Sun-04 pm   Work around lack of db storage capacity
 Sun-06 pm   Finish data update implementation
+Sun-07 pm   Break
+Sun-09 pm   Implement search endpoints for front end

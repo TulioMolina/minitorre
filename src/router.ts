@@ -52,15 +52,19 @@ router.get(
 );
 
 router.post("/api/people/search", async (req: Request, res: Response) => {
-  const {
-    name,
-    locationName,
-    professionalHeadline,
-    username,
-    openTo,
-  } = req.body;
+  const query: any = {};
+
+  // building query object according to criteria received
+  Object.keys(req.body).forEach((criterion) => {
+    const value = req.body[criterion];
+    query[criterion] = { $regex: `.*${value}.*` };
+  });
 
   const client = await mongoClient.connect();
+
+  const result = await client.db().collection("people").find(query).toArray();
+
+  res.send(result);
 });
 
 export default router;
