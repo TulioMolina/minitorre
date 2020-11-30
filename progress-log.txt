@@ -8,4 +8,7 @@ Sat-05 pm   Backend tech-stack selection and setup
 Sat-06 pm   Break
 Sun-09 am   Start backend development
 Sun-12 pm   Implement update-data endpoints
+Sun-01 pm   Break
 Sun-03 pm   Setup mongodb instance
+Sun-04 pm   Work around lack of db storage capacity
+Sun-06 pm   Finish data update implementation

@@ -53,4 +53,6 @@ router.get(
   }
 );
 
+router.post("/api/people/search");
+
 export default router;

@@ -1,5 +1,6 @@
 import axios from "axios";
 import mongoClient from "./mongoclient";
+import { Db } from "mongodb";
 
 export const updateResourceDb = async (
   endpointBaseUrl: string,
@@ -24,7 +25,7 @@ export const updateResourceDb = async (
     let remaining = totalResources;
 
     // connecting to db
-    await mongoClient.connect();
+    const client = await mongoClient.connect();
 
     // constraint of docs per collection given db storage limit
     while (remaining > 0 && offset < documentsLimit) {
@@ -50,10 +51,7 @@ export const updateResourceDb = async (
       }
 
       // inserting resources to db
-      await mongoClient
-        .db()
-        .collection(`temp_${resource}`)
-        .insertMany(resourceBatch);
+      client.db().collection(`temp_${resource}`).insertMany(resourceBatch);
 
       // updating counters
       offset += size;
@@ -67,7 +65,7 @@ export const updateResourceDb = async (
       console.log(`${offset} ${resource} resources loaded`);
     }
 
-    await mongoClient
+    client
       .db()
       .collection(`temp_${resource}`)
       .rename(resource, { dropTarget: true });
