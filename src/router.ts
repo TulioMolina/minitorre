@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
-import mongoClient from "./mongoclient";
-// import axios from "axios";
 
 import { updateResourceDb } from "./helpers";
+import endpointUrls from "./config/endpointUrls";
+import mongoClient from "./config/mongoclient";
 
 const router = express.Router();
 
@@ -15,13 +15,12 @@ router.get(
 
 // endpoint that updates and stores opportunities data in db
 router.get(
-  "/update/opportunities",
+  "/api/opportunities/update",
   async (req: Request, res: Response): Promise<void> => {
     try {
       // defining base url for people endpoint at torre
-      const opportBaseUrl = `https://search.torre.co/opportunities/_search/`;
       await updateResourceDb(
-        opportBaseUrl,
+        endpointUrls.opportBaseUrl,
         "opportunities",
         parseInt(process.env.DOCS_LIMIT)
       );
@@ -35,13 +34,12 @@ router.get(
 
 // endpoint that updates and stores people data in db
 router.get(
-  "/update/people",
+  "/api/people/update",
   async (req: Request, res: Response): Promise<void> => {
     try {
       // defining base url for people endpoint at torre
-      const peopleBaseUrl = `https://search.torre.co/people/_search/`;
       await updateResourceDb(
-        peopleBaseUrl,
+        endpointUrls.peopleBaseUrl,
         "people",
         parseInt(process.env.DOCS_LIMIT)
       );
@@ -53,6 +51,16 @@ router.get(
   }
 );
 
-router.post("/api/people/search");
+router.post("/api/people/search", async (req: Request, res: Response) => {
+  const {
+    name,
+    locationName,
+    professionalHeadline,
+    username,
+    openTo,
+  } = req.body;
+
+  const client = await mongoClient.connect();
+});
 
 export default router;

@@ -1,6 +1,6 @@
 import axios from "axios";
-import mongoClient from "./mongoclient";
-import { Db } from "mongodb";
+import mongoClient from "./config/mongoclient";
+import endpointUrls from "./config/endpointUrls";
 
 export const updateResourceDb = async (
   endpointBaseUrl: string,
@@ -26,6 +26,8 @@ export const updateResourceDb = async (
 
     // connecting to db
     const client = await mongoClient.connect();
+
+    await client.db().collection(`temp_${resource}`).drop();
 
     // constraint of docs per collection given db storage limit
     while (remaining > 0 && offset < documentsLimit) {
@@ -76,14 +78,20 @@ export const updateResourceDb = async (
   }
 };
 
-export const updateData = async (documentsLimit: number) => {
+export const updateData = async (documentsLimit: number): Promise<void> => {
   try {
-    const peopleBaseUrl = `https://search.torre.co/people/_search/`;
-    await updateResourceDb(peopleBaseUrl, "people", documentsLimit);
+    await updateResourceDb(
+      endpointUrls.peopleBaseUrl,
+      "people",
+      documentsLimit
+    );
     console.log("successful insertion to people collection");
 
-    const opportBaseUrl = `https://search.torre.co/opportunities/_search/`;
-    await updateResourceDb(opportBaseUrl, "opportunities", documentsLimit);
+    await updateResourceDb(
+      endpointUrls.opportBaseUrl,
+      "opportunities",
+      documentsLimit
+    );
     console.log("successful insertion to opportunities collection");
   } catch (error) {
     console.log(error);

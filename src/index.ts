@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 
 if (process.env.NODE_ENV !== "production") {
@@ -10,6 +11,8 @@ import { updateData } from "./helpers";
 
 const app = express();
 
+app.use(express.json());
+app.use(cors());
 app.use(router);
 
 // start app
