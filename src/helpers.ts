@@ -97,3 +97,26 @@ export const updateData = async (documentsLimit: number): Promise<void> => {
     console.log(error);
   }
 };
+
+export const generateSearchQuery = (
+  logicalOperator: string,
+  search: any
+): object => {
+  let query: any = {};
+
+  // building query object according to criteria received
+  Object.keys(search).forEach((criterion: string) => {
+    const value = search[criterion];
+    query[criterion] = { $regex: value, $options: "i" };
+  });
+
+  if (logicalOperator === "or") {
+    query = {
+      $or: Object.entries(query).map(([key, value]) => {
+        return { [key]: value };
+      }),
+    };
+  }
+
+  return query;
+};
