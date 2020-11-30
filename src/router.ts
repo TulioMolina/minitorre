@@ -56,15 +56,12 @@ router.post(
   async (req: Request, res: Response): Promise<void> => {
     try {
       // input handling
-      const { logicalOperator } = req.body;
-      const size = req.body.size || 10;
-      const offset = req.body.offset || 0;
-      const searchCriteria = { ...req.body };
-      delete searchCriteria.logicalOperator;
-      delete searchCriteria.size;
-      delete searchCriteria.offset;
+      const size: any = req.query.size || 10;
+      const offset: any = req.query.offset || 0;
+      const logicalOperator: any = req.query.logicalOperator || "and";
 
-      const query = generateSearchQuery(logicalOperator, searchCriteria);
+      const query = generateSearchQuery(logicalOperator, req.body);
+      console.log(logicalOperator, size);
 
       const client = await mongoClient.connect();
 
@@ -72,8 +69,8 @@ router.post(
         .db()
         .collection("people")
         .find(query)
-        .limit(size)
-        .skip(offset)
+        .limit(parseInt(size))
+        .skip(parseInt(offset))
         .toArray();
 
       if (result.length === 0) {
@@ -94,15 +91,11 @@ router.post(
   async (req: Request, res: Response): Promise<void> => {
     try {
       // input handling
-      const { logicalOperator } = req.body;
-      const size = req.body.size || 10;
-      const offset = req.body.offset || 0;
-      const searchCriteria = { ...req.body };
-      delete searchCriteria.logicalOperator;
-      delete searchCriteria.size;
-      delete searchCriteria.offset;
+      const size: any = req.query.size || 10;
+      const offset: any = req.query.offset || 0;
+      const logicalOperator: any = req.query.logicalOperator || "and";
 
-      const query = generateSearchQuery(logicalOperator, searchCriteria);
+      const query = generateSearchQuery(logicalOperator, req.body);
 
       const client = await mongoClient.connect();
 
@@ -110,8 +103,8 @@ router.post(
         .db()
         .collection("opportunities")
         .find(query)
-        .limit(size)
-        .skip(offset)
+        .limit(parseInt(size))
+        .skip(parseInt(offset))
         .toArray();
 
       if (result.length === 0) {
