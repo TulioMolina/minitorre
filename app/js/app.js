@@ -11,6 +11,10 @@ const clearFields = () => {
 peopleBtn.addEventListener("click", () => {
   clearFields();
   searchCriteria.innerHTML = `
+        <div style="margin-bottom: 10px;">
+          <h5 style="margin-bottom: 0px;">Search criteria</h5>
+          <small>Fill up the fields of interest only</small>
+        </div>
         <div class="form-group">
           <label for="name">Name</label>
           <input class="form-control" id="name">
@@ -36,6 +40,7 @@ peopleBtn.addEventListener("click", () => {
 
   searchCriteria.addEventListener("submit", async (event) => {
     event.preventDefault();
+    resultsList.innerHTML = null;
     const name = document.getElementById("name").value;
     const locationName = document.getElementById("locationName").value;
     const professionalHeadline = document.getElementById("professionalHeadline")
@@ -57,12 +62,15 @@ peopleBtn.addEventListener("click", () => {
       }
     );
 
-    const data = await response.json();
     let output = "";
 
-    data.result.forEach(
-      ({ name, professionalHeadline, locationName, username }) => {
-        output += `
+    if (response.status === 404) {
+      output = `<h5>No results</h5>`;
+    } else {
+      const data = await response.json();
+      data.result.forEach(
+        ({ name, professionalHeadline, locationName, username }) => {
+          output += `
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">${name}</h5>
@@ -72,8 +80,9 @@ peopleBtn.addEventListener("click", () => {
                 </div>
             </div>
           `;
-      }
-    );
+        }
+      );
+    }
 
     resultsList.innerHTML = output;
   });
@@ -82,6 +91,10 @@ peopleBtn.addEventListener("click", () => {
 jobsBtn.addEventListener("click", () => {
   clearFields();
   searchCriteria.innerHTML = `
+          <div style="margin-bottom: 10px;">
+            <h5 style="margin-bottom: 0px;">Search criteria</h5>
+            <small>Fill up the fields of interest only</small>
+          </div>
           <div class="form-group">
             <label for="objective">Objective</label>
             <input class="form-control" id="objective">
@@ -103,6 +116,7 @@ jobsBtn.addEventListener("click", () => {
 
   searchCriteria.addEventListener("submit", async (event) => {
     event.preventDefault();
+    resultsList.innerHTML = null;
     const objective = document.getElementById("objective").value;
     const type = document.getElementById("type").value;
     const or = document.getElementById("or").checked;
@@ -122,11 +136,14 @@ jobsBtn.addEventListener("click", () => {
       }
     );
 
-    const data = await response.json();
     let output = "";
 
-    data.result.forEach(({ objective, type, id }) => {
-      output += `
+    if (response.status === 404) {
+      output = `<h5>No results</h5>`;
+    } else {
+      const data = await response.json();
+      data.result.forEach(({ objective, type, id }) => {
+        output += `
               <div class="card" style="width: 18rem;">
                   <div class="card-body">
                     <a href="https://torre.co/jobs/${id}" target="_blank"><h5 class="card-title">${objective}</h5></a>
@@ -134,7 +151,8 @@ jobsBtn.addEventListener("click", () => {
                   </div>
               </div>
             `;
-    });
+      });
+    }
 
     resultsList.innerHTML = output;
   });

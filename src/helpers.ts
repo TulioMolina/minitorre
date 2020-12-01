@@ -25,7 +25,7 @@ export const updateResourceDb = async (
     let remaining = totalResources;
 
     // connecting to db
-    const client = await mongoClient.connect();
+    const client = await mongoClient;
 
     await client.db().collection(`temp_${resource}`).drop();
 

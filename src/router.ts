@@ -55,7 +55,12 @@ router.post(
 
       const query = generateSearchQuery(logicalOperator, req.body);
 
-      const client = await mongoClient.connect();
+      if (Object.keys(query).length === 0) {
+        res.status(400).send();
+        return;
+      }
+
+      const client = await mongoClient;
 
       const result = await client
         .db()
@@ -89,7 +94,12 @@ router.post(
 
       const query = generateSearchQuery(logicalOperator, req.body);
 
-      const client = await mongoClient.connect();
+      if (Object.keys(query).length === 0) {
+        res.status(400).send();
+        return;
+      }
+
+      const client = await mongoClient;
 
       const result = await client
         .db()

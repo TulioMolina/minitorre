@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 
@@ -13,7 +12,6 @@ import { updateData } from "./helpers";
 const app = express();
 
 app.use(express.json());
-app.use(cors());
 app.use(router);
 
 app.use(express.static(path.join(__dirname, "..", "app")));

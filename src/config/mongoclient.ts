@@ -7,4 +7,4 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@clu
 export default new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+}).connect();
