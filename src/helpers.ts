@@ -27,7 +27,9 @@ export const updateResourceDb = async (
     // connecting to db
     const client = await mongoClient;
 
-    await client.db().collection(`temp_${resource}`).drop();
+    try {
+      await client.db().collection(`temp_${resource}`).drop();
+    } catch (error) {}
 
     // constraint of docs per collection given db storage limit
     while (remaining > 0 && offset < documentsLimit) {
@@ -53,7 +55,10 @@ export const updateResourceDb = async (
       }
 
       // inserting resources to db
-      client.db().collection(`temp_${resource}`).insertMany(resourceBatch);
+      await client
+        .db()
+        .collection(`temp_${resource}`)
+        .insertMany(resourceBatch);
 
       // updating counters
       offset += size;
@@ -67,7 +72,7 @@ export const updateResourceDb = async (
       console.log(`${offset} ${resource} resources loaded`);
     }
 
-    client
+    await client
       .db()
       .collection(`temp_${resource}`)
       .rename(resource, { dropTarget: true });
