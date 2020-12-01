@@ -6,44 +6,7 @@ import mongoClient from "./config/mongoclient";
 
 const router = express.Router();
 
-// endpoint that updates and stores opportunities data in db
-router.get(
-  "/api/opportunities/update",
-  async (req: Request, res: Response): Promise<void> => {
-    try {
-      // defining base url for people endpoint at torre
-      await updateResourceDb(
-        endpointUrls.opportBaseUrl,
-        "opportunities",
-        parseInt(process.env.DOCS_LIMIT)
-      );
-      res.send("successful insertion to opportunities collection");
-    } catch (error) {
-      console.log(error);
-      res.status(500).send();
-    }
-  }
-);
-
-// endpoint that updates and stores people data in db
-router.get(
-  "/api/people/update",
-  async (req: Request, res: Response): Promise<void> => {
-    try {
-      // defining base url for people endpoint at torre
-      await updateResourceDb(
-        endpointUrls.peopleBaseUrl,
-        "people",
-        parseInt(process.env.DOCS_LIMIT)
-      );
-      res.send("successful insertion to people collection");
-    } catch (error) {
-      console.log(error);
-      res.status(500).send();
-    }
-  }
-);
-
+// endpoint that searches for people
 router.post(
   "/api/people/search",
   async (req: Request, res: Response): Promise<void> => {
@@ -83,6 +46,7 @@ router.post(
   }
 );
 
+// endpoint that searches for jobs
 router.post(
   "/api/opportunities/search",
   async (req: Request, res: Response): Promise<void> => {
@@ -115,6 +79,44 @@ router.post(
       }
 
       res.send({ size, offset, result });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send();
+    }
+  }
+);
+
+// endpoint that updates and stores opportunities data in db
+router.get(
+  "/api/opportunities/update",
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      // defining base url for people endpoint at torre
+      await updateResourceDb(
+        endpointUrls.opportBaseUrl,
+        "opportunities",
+        parseInt(process.env.DOCS_LIMIT)
+      );
+      res.send("successful insertion to opportunities collection");
+    } catch (error) {
+      console.log(error);
+      res.status(500).send();
+    }
+  }
+);
+
+// endpoint that updates and stores people data in db
+router.get(
+  "/api/people/update",
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      // defining base url for people endpoint at torre
+      await updateResourceDb(
+        endpointUrls.peopleBaseUrl,
+        "people",
+        parseInt(process.env.DOCS_LIMIT)
+      );
+      res.send("successful insertion to people collection");
     } catch (error) {
       console.log(error);
       res.status(500).send();
