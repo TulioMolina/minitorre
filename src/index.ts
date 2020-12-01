@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors());
 app.use(router);
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 // start app
 app.listen(process.env.PORT, () => {
@@ -24,7 +24,7 @@ app.listen(process.env.PORT, () => {
 });
 
 app.get("*", (req: Request, res: Response): void => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 });
 
 // initialize data when starting app if configured
