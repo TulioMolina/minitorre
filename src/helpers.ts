@@ -107,6 +107,9 @@ export const generateSearchQuery = (
   // building query object according to criteria received
   Object.keys(search).forEach((criterion: string) => {
     const value = search[criterion];
+    if (!value) {
+      return;
+    }
     query[criterion] = { $regex: value, $options: "i" };
   });
 

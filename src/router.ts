@@ -54,7 +54,6 @@ router.post(
       const logicalOperator: any = req.query.logicalOperator || "and";
 
       const query = generateSearchQuery(logicalOperator, req.body);
-      console.log(logicalOperator, size);
 
       const client = await mongoClient.connect();
 
